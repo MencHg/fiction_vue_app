@@ -115,9 +115,10 @@ export default {
       console.log(typeid,page);
       
       this.axios.get('/api/qqxs/category?typeid='+typeid+'&page='+page)
-        .then((respons) => {
-          this.list.push(...respons.data.list);
-          this.page_number = respons.data.number;
+        .then((result) => {
+          this.list.push(...result.data.result.list);
+          this.page_number = result.data.result.page_number;
+          // console.log(result);
         }).catch((err) => {
           console.log('tag', err);
         });

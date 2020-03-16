@@ -56,6 +56,7 @@ export default {
   }),
   created() {
     this.getArticleList(this.$route.query);
+    console.log(this.$route.query)
   },
   methods: {
     comment(item) {
@@ -72,9 +73,10 @@ export default {
       this.linkId = url.list;
       console.log(this.linkId);
       this.axios
-        .post("/api/qqxs/detail", { id: this.linkId })
+        .get("/api/qqxs/chaplist?id="+this.linkId)
         .then(result => {
-          this.article = result.data;
+          this.article = result.data.articleList;
+          console.log(this.article);
         })
         .catch(err => {
           console.log(err);
@@ -111,15 +113,18 @@ export default {
           line-height: 2;
           font-size: 20px;
           font-weight: bold;
+          color: #eeeeee;
         }
         .article-author {
           line-height: 2;
           font-size: 14px;
           font-weight: 400;
+          color: #eeeeee;
         }
         .article-status {
           line-height: 1.3;
           font-size: 12px;
+          color: #eeeeee;
         }
       }
     }
@@ -127,7 +132,6 @@ export default {
       line-height: 1.5;
       padding:0 10px 10px;
       text-align: justify;
-      color: #1c2031cc;
     }
   }
   .article-list {

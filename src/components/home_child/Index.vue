@@ -1,18 +1,9 @@
+
+<!-- <router-link :to="{  path:'chapterlist',  query:{ list: item.link} }"> -->
 <template>
   <div class="home">
     <div class="banner">
-      <ul class="swiper-container">
-        <li
-          :class="['swiper-item',{'swiper-item-active':bannerActive === index}]"
-          v-for="(item,index) in banners"
-          :key="index"
-        >
-          <router-link :to="{  path:'chapterlist',  query:{ list: item.link} }">
-            <img :src="item.cover_image" :alt="item.title" />
-            <span class="item-title">{{item.title}}</span>
-          </router-link>
-        </li>
-      </ul>
+      <BasicSwiper :swiperList="banners" link="chapterlist" />
     </div>
     <section class="comment">
       <h2 class="comment-title">热门推荐</h2>
@@ -28,9 +19,10 @@
   </div>
 </template>
 <script>
+import  BasicSwiper from "@/components/basic/BasicSwiper";
 export default {
   name: "Home",
-  components: {},
+  components: {BasicSwiper},
   data() {
     return {
       list: [],
@@ -46,9 +38,8 @@ export default {
     getData() {
       this.axios("/api/qqxs/home")
         .then(result => {
-          this.list = result.data.top;
-          this.banners = result.data.homeHead;
-          console.log(result.data)
+          this.list = result.data.result.list;
+          this.banners = result.data.result.banner;
         })
         .catch(err => {});
     },
@@ -66,7 +57,6 @@ export default {
 .home {
   .banner {
     width: 100%;
-    height: 200px;
     background-color: #eee;
     .swiper-container {
       position: relative;
@@ -131,3 +121,5 @@ export default {
   }
 }
 </style>
+
+            

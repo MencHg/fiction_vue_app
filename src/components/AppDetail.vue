@@ -62,7 +62,7 @@ export default {
         bgc:"#444a"
       },
       {
-        name:"清幽",
+        name:"幽竹",
         theme:"userset",
         bgc:"green"
       },
@@ -94,16 +94,15 @@ export default {
       this.theme = theme; //获取到用户选择的主题类型赋值到data
     },
     findMore(val){
-       if(val.slice(-4)==="html"){
+      console.log(val);
+       if(val.slice(-10)!=="index.html"){
          this.getArticleDetail(val);
        }else return;
     },
     getArticleDetail(article){
-      this.axios.post('/api/qqxs/article',{
-        id:article
-      })
+      this.axios.get('/api/qqxs/detail?id='+article)
         .then((result) => {
-          this.article.push(result.data);
+          this.article.push(result.data.result);
         }).catch((err) => {
           console.log(err);
         });
@@ -118,7 +117,7 @@ export default {
 }
 .detail.gray{
   background-color: #444;
-  color: #fff;
+  color: #eeeeee;
 } //http://hbimg.b0.upaiyun.com/e573f0b5715470b4ea2462b683ddf8abe43da7b222b95-jOBCvC_fw658
 .detail.userset{ //http://hbimg.b0.upaiyun.com/9ea953e5e064a4ca918f4efc7bace30997080d2e5ba2-bzBa1R_fw236
   background-image: url('http://hbimg.b0.upaiyun.com/e573f0b5715470b4ea2462b683ddf8abe43da7b222b95-jOBCvC_fw658');
@@ -126,7 +125,7 @@ export default {
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  color: rgb(16, 221, 248);
+  color: rgb(38, 248, 213);
 }
 .detail.chan{ //http://hbimg.b0.upaiyun.com/9ea953e5e064a4ca918f4efc7bace30997080d2e5ba2-bzBa1R_fw236
   background-image: url('http://hbimg.b0.upaiyun.com/9ea953e5e064a4ca918f4efc7bace30997080d2e5ba2-bzBa1R_fw236');
@@ -171,8 +170,10 @@ export default {
           flex-wrap: wrap;
           padding: 0 15px;
           button{
+            width: 20px;
+            height: 20px;
+            line-height: 1.5;
             background-color: #eee;
-            padding: 2px 6px;
             outline: none;
             border: none;
             border-radius: 50%;
@@ -182,6 +183,7 @@ export default {
           align-items: flex-start;
           button{
             margin: 3px;
+            width: auto;
             border-radius: 5px;
           }
         }
@@ -209,6 +211,7 @@ export default {
   }
   .content-detail{
     line-height: 1.8;
+    letter-spacing:3px;
     text-align: justify;
     text-indent: 2em;
     color: inherit;

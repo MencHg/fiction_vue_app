@@ -49,6 +49,11 @@ const routes = [
     name: 'login',
     component: () => import( '@/components/user_child/Login.vue')
   },
+  {
+    path: '/userinfo',
+    name: 'userinfo',
+    component: () => import( '@/components/user_child/Userinfo.vue')
+  },
 ];
 const router = new VueRouter({
   // mode: 'history',
