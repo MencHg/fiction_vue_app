@@ -4,7 +4,7 @@
     <div  class="login-logo">
         <img src="../../assets/login.png" alt="">
     </div>
-    <BasicInput v-model="phone" width="84%" placeholder="手机号"  icon="icon-shoujihao" :tips="errMsg.phone" />
+    <BasicInput v-model="email" width="84%" placeholder="邮箱"  icon="icon-youxiang1" :tips="errMsg.email" />
     <BasicInput v-model="password" width="84%" type="password" placeholder="密码" icon="icon-mima2" :tips="errMsg.password" />
     <div class="login-service">
         <div class="service-text">
@@ -30,10 +30,10 @@ export default {
         BasicButton
     },
     data:()=>({
-        phone:'',
+        email:'',
         password:'',
         errMsg:{
-            phone:"",
+            email:"",
             password:""
         },
         service:true
@@ -42,9 +42,9 @@ export default {
 
     },
     watch:{
-        phone(){
-            this.phoneMatch()
-            return this.phone;
+        email(){
+            this.emailMatch()
+            return this.email;
         },
         password(){
             this.pwdMatch()
@@ -52,13 +52,13 @@ export default {
         }
     },
     methods:{
-        phoneMatch(){
-            let reg = /^1[3-9]\d{9}$/;
-            if(reg.test(this.phone)){
-                this.errMsg.phone = ""
+        emailMatch(){
+            let reg = /^\w+@[a-z0-9]+\.[a-z]+$/i;   // /^1[3-9]\d{9}$/;
+            if(reg.test(this.email)){
+                this.errMsg.email = ""
                 return true;
             }else{
-                this.errMsg.phone = "手机号格式错误"
+                this.errMsg.email = "邮箱格式错误"
                 return false;
             };
         },
@@ -73,12 +73,25 @@ export default {
             };
         },
         upload(){
-            console.log('run upload function');
-            this.phone = '';
-            this.password = ''
+            this.axios.post('/api/jsonk/user/login',{
+                email:this.email,
+                password:this.password
+            })
+                .then(res=>{
+                    if(res.data.token){
+                        this.$router.push('/about');
+                        localStorage.setItem('article_token',res.data.token)
+                        this.$store.dispatch('setUserinfo',res.data.userinfo)
+                    }else{
+                        this.errMsg.email = res.data.msg;
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
         },
         loginClick(){
-            if(this.pwdMatch() && this.phoneMatch()){
+            if(this.pwdMatch() && this.emailMatch()){
                 this.upload();
             };
         },
@@ -102,6 +115,7 @@ export default {
         margin: 8px auto 30px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         width: 80%;
         font-size: 14px;
         .service-text{

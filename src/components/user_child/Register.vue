@@ -5,7 +5,7 @@
         <img src="../../assets/login.png" alt="">
     </div>
     <BasicInput v-model="nickname" width="84%" placeholder="昵称"  icon="icon-user" :tips="errMsg.nickname" />
-    <BasicInput v-model="phone" width="84%" placeholder="手机号"  icon="icon-shoujihao" :tips="errMsg.phone" />
+    <BasicInput v-model="email" width="84%" placeholder="邮箱"  icon="icon-youxiang1" :tips="errMsg.email" />
     <BasicInput v-model="password" width="84%" type="password" placeholder="密码" icon="icon-mima2" :tips="errMsg.password" />
     <div class="register-service">
         <div class="service-text">
@@ -31,11 +31,11 @@ export default {
         BasicButton
     },
     data:()=>({
-        phone:'',
+        email:'',
         password:'',
         nickname:'',
         errMsg:{
-            phone:"",
+            email:"",
             password:"",
             nickname:""
         },
@@ -45,9 +45,9 @@ export default {
 
     },
     watch:{
-        phone(){
-            this.phoneMatch()
-            return this.phone;
+        email(){
+            this.emailMatch()
+            return this.email;
         },
         password(){
             this.pwdMatch()
@@ -55,13 +55,13 @@ export default {
         }
     },
     methods:{
-        phoneMatch(){
-            let reg = /^1[3-9]\d{9}$/;
-            if(reg.test(this.phone)){
-                this.errMsg.phone = ""
+        emailMatch(){
+            let reg = /^\w+@[a-z0-9]+\.[a-z]+$/i; // /^1[3-9]\d{9}$/;
+            if(reg.test(this.email)){
+                this.errMsg.email = ""
                 return true;
             }else{
-                this.errMsg.phone = "手机号格式错误"
+                this.errMsg.email = "邮箱格式错误"
                 return false;
             };
         },
@@ -76,10 +76,24 @@ export default {
             };
         },
         upload(){
-            console.log('run upload function');
+            this.axios.post('/api/jsonk/user/register',{
+                email:this.email,
+                password:this.password,
+                nickname:this.nickname
+            })
+                .then(res=>{
+                    if(res.data.message.code === 1){
+                        this.$router.push('/login')
+                    }else{
+                        this.errMsg.email = res.data.message.tips;
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
         },
         registerClick(){
-            if(this.pwdMatch() && this.phoneMatch()){
+            if(this.pwdMatch() && this.emailMatch()){
                 this.upload();
             };
         },
@@ -103,6 +117,7 @@ export default {
         margin: 8px auto 30px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         width: 80%;
         font-size: 14px;
         .service-text{

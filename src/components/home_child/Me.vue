@@ -2,8 +2,10 @@
   <section class="me">
     <section class="user-head">
       <div class="user-avatar">
-        <span class="username">mengc</span>
-        <img class="avatar-image" src="../../assets/logo.png" @click="$router.push('/login')" />
+        <!-- <span class="username" v-if="$store.getters.userinfo.nickname">mengc</span> -->
+        <span class="username">{{$store.getters.userinfo.nickname}}</span>
+        <!-- <img class="avatar-image" v-if="$store.getters.userinfo.avatarUrl" src="../../assets/logo.png" @click="$router.push('/login')" /> -->
+        <img class="avatar-image" :src="$store.getters.userinfo.avatarUrl" alt="">
       </div>
     </section>
     <ul class="user-history">
@@ -53,7 +55,7 @@ export default {
     history:[]
   }),
   created() {
-
+    console.log(this.$store.getters);
   },
   methods: {
 
@@ -63,7 +65,7 @@ export default {
 <style lang="less" scoped>
 .me {
   height: 100%;
-  background-color: #f4f4f4e5;
+  background-color: rgba(204, 204, 204, 0.575);
   .user-head {
     position: relative;
     height: 160px;

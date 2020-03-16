@@ -1,143 +1,260 @@
 <template>
- <article :class="['detail',theme.theme]" :style="{'font-size':fontSize+'px'}">
-   <BasicBlank :bgc="theme.bgc" :color="theme.color" />
-   <div class="set-app">
-     <i class="iconfont icon-web__shezhi" @click="setApp"></i>
-    <ul :class="['menu-setapp',{'menu-active':menuActive}]">
-      <li class="menu-item">
-        字体大小:
-        <p class="menu-select">
-          <button @click="setFontSize(false)">-</button>
-          <span>{{fontSize}}</span>
-          <button @click="setFontSize(true)">+</button>
-        </p>
-      </li>
-      <li class="menu-item">
-        主题选择:
-        <p class="menu-select menu-theme">
-          <button v-for="(item,index) in themeList" :key="index" @click="setTheme(item)">{{item.name}}</button>
-        </p>
-      </li>
-    </ul>
-   </div>
-   <div class="content-wrap" v-for="(item,index) in article" :key="index">
+  <article :class="['detail',theme.theme]" :style="{'font-size':fontSize+'px'}">
+    <BasicBlank :bgc="theme.bgc" :color="theme.color" />
+    <div class="set-app">
+      <i class="iconfont icon-web__shezhi" @click="setApp"></i>
+      <ul :class="['menu-setapp',{'menu-active':menuActive}]">
+        <li class="menu-item">
+          字体大小:
+          <p class="menu-select">
+            <button @click="setFontSize(false)">-</button>
+            <span>{{fontSize}}</span>
+            <button @click="setFontSize(true)">+</button>
+          </p>
+        </li>
+        <li class="menu-item">
+          主题选择:
+          <p class="menu-select menu-theme">
+            <button
+              v-for="(item,index) in themeList"
+              :key="index"
+              @click="setTheme(item)"
+            >{{item.name}}</button>
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div class="content-wrap" v-for="(item,index) in article" :key="index">
       <h3 class="title-detail">{{item.title}}</h3>
-      <p class="content-detail" v-for="(content,i) in item.content" :key="i">
-        {{content}}
-      </p>
+      <p class="content-detail" v-for="(content,i) in item.content" :key="i">{{content}}</p>
       <span class="tips-end">本章完</span>
-   </div>
-   <p class="detail-btn" v-if="article.length">
-     <!-- <button class="detail-select"
+    </div>
+    <p class="detail-btn" v-if="article.length">
+      <!-- <button class="detail-select"
       v-if="article[article.length-1].article_prev.slice(-4)==='html'" 
-      @click="findMore(article[article.length-1].article_prev)">上一章</button> -->
-     <button class="detail-select" 
-     v-if="article[article.length-1].article_next.slice(-4)==='html'" 
-     @click="findMore(article[article.length-1].article_next)">下一章</button>
-   </p>
-  <!-- <p class="coment">评论</p> -->
- </article>
+      @click="findMore(article[article.length-1].article_prev)">上一章</button>-->
+      <button
+        class="detail-select"
+        v-if="article[article.length-1].article_next.slice(-4)==='html'"
+        @click="findMore(article[article.length-1].article_next)"
+      >下一章</button>
+    </p>
+    <!-- <p class="coment">评论</p> -->
+  </article>
 </template>
 <script>
-import BasicBlank from '@/components/basic/BasicBlank'
+import BasicBlank from "@/components/basic/BasicBlank";
 export default {
-  name: 'detail',
-  components:{
+  name: "detail",
+  components: {
     BasicBlank
   },
-  data:()=>({
-    article:[],
-    menuActive:false,
-    fontSize:16,
-    theme:'',
-    themeList:[
+  data: () => ({
+    article: [],
+    menuActive: false,
+    fontSize: 16,
+    theme: "",
+    themeList: [
       {
-        name:"默认",
-        theme:"default",
-        bgc:"#41b881"
+        name: "默认",
+        theme: "default",
+        bgc: "#41b881"
       },
       {
-        name:"雅黑",
-        theme:"gray",
-        bgc:"#444a"
+        name: "雅黑",
+        theme: "gray",
+        bgc: "#444a"
       },
       {
-        name:"幽竹",
-        theme:"userset",
-        bgc:"green"
+        name: "流川",
+        theme: "mangosteen",
+        bgc: "#aaaa"
       },
       {
-        name:"夕阳",
-        theme:"chan",
-        bgc:"#aaaa"
+        name: "书香",
+        theme: "sun",
+        bgc: "#aaaa"
       },
+      {
+        name: "圣诞",
+        theme: "songd",
+        bgc: "#aaaa"
+      },
+      {
+        name: "护眼",
+        theme: "eye",
+        bgc: "#aaaa"
+      }
     ]
   }),
-  created(){
-    console.log(this.$route.query.link+this.$route.query.id)
-    this.getArticleDetail(this.$route.query.link+this.$route.query.id)
+  watch: {
+    fontSize() {
+      localStorage.setItem(
+        "theme",
+        JSON.stringify({ fontSize: this.fontSize, theme: this.theme })
+      );
+      return this.fontSize;
+    },
+    theme() {
+      localStorage.setItem(
+        "theme",
+        JSON.stringify({ fontSize: this.fontSize, theme: this.theme })
+      );
+      return this.theme;
+    }
   },
-  methods:{
-    setApp(){
-      console.log('setapp');
+  created() {
+    this.getArticleDetail(this.$route.query.link + this.$route.query.id);
+    this.initTheme();
+  },
+  methods: {
+    initTheme() {
+      if (localStorage.theme) {
+        let themeStorege = JSON.parse(localStorage.theme);
+        if (themeStorege) {
+          this.fontSize = themeStorege.fontSize;
+          this.theme = themeStorege.theme;
+        } else {
+          return;
+        }
+      }
+    },
+    setApp() {
       this.menuActive = !this.menuActive;
     },
-    setFontSize(status){
-      if(status){
-        this.fontSize<26?this.fontSize++ : this.fontSize = 26 ;
-      }else{
-        this.fontSize>12?this.fontSize--:this.fontSize = 12 ;
+    setFontSize(status) {
+      if (status) {
+        this.fontSize < 26 ? this.fontSize++ : (this.fontSize = 26);
+      } else {
+        this.fontSize > 12 ? this.fontSize-- : (this.fontSize = 12);
       }
-      this.$store.dispatch('setFontSize',this.fontSize)
+      this.$store.dispatch("setFontSize", this.fontSize);
     },
-    setTheme(theme){
+    setTheme(theme) {
       this.theme = theme; //获取到用户选择的主题类型赋值到data
     },
-    findMore(val){
+    findMore(val) {
       console.log(val);
-       if(val.slice(-10)!=="index.html"){
-         this.getArticleDetail(val);
-       }else return;
+      if (val.slice(-10) !== "index.html") {
+        this.getArticleDetail(val);
+      } else return;
     },
-    getArticleDetail(article){
-      this.axios.get('/api/qqxs/detail?id='+article)
-        .then((result) => {
+    getArticleDetail(article) {
+      this.axios
+        .get("/api/qqxs/detail?id=" + article)
+        .then(result => {
           this.article.push(result.data.result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log(err);
         });
     }
   }
-}
+};
 </script>
 <style scoped lang="less">
-.detail.default{
+.detail.mangosteen,
+.detail.songd,
+.detail.sun,
+.detail.default,
+.detail.gray {
+  .set-app {
+    button {
+      color: rgb(80, 80, 87);
+    }
+  }
+  button {
+    color: inherit;
+  }
+}
+.detail.default {
   background-color: #fff;
   color: #000;
 }
-.detail.gray{
+.detail.gray {
   background-color: #444;
   color: #eeeeee;
-} //http://hbimg.b0.upaiyun.com/e573f0b5715470b4ea2462b683ddf8abe43da7b222b95-jOBCvC_fw658
-.detail.userset{ //http://hbimg.b0.upaiyun.com/9ea953e5e064a4ca918f4efc7bace30997080d2e5ba2-bzBa1R_fw236
-  background-image: url('http://hbimg.b0.upaiyun.com/e573f0b5715470b4ea2462b683ddf8abe43da7b222b95-jOBCvC_fw658');
-  background-position: 0 0;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: rgb(38, 248, 213);
 }
-.detail.chan{ //http://hbimg.b0.upaiyun.com/9ea953e5e064a4ca918f4efc7bace30997080d2e5ba2-bzBa1R_fw236
-  background-image: url('http://hbimg.b0.upaiyun.com/9ea953e5e064a4ca918f4efc7bace30997080d2e5ba2-bzBa1R_fw236');
-  background-position: 0 0;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: rgb(103, 103, 196);
+.detail.mangosteen {
+  position: relative;
+  color: rgb(223, 223, 223);
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("http://img1.imgtn.bdimg.com/it/u=1079891450,3194650925&fm=26&gp=0.jpg");
+    background-position: 0 0;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(6px);
+  }
 }
-.detail{
+.detail.sun {
+  position: relative;
+  color: rgb(80, 80, 87);
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("http://img0.imgtn.bdimg.com/it/u=1316619747,2950997811&fm=26&gp=0.jpg");
+    background-position: 0 0;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(4px);
+  }
+}
+.detail.eye {
+  position: relative;
+  color: rgb(92, 88, 88);
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("http://img3.imgtn.bdimg.com/it/u=3268167055,48134426&fm=26&gp=0.jpg");
+    background-position: 0 0;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(4px);
+  }
+}
+.detail.songd {
+  position: relative;
+  color: rgb(236, 235, 235);
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("http://img0.imgtn.bdimg.com/it/u=4121703078,3693471928&fm=26&gp=0.jpg");
+    background-position: 0 0;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(6px);
+  }
+}
+.detail {
+  //
   padding-top: 40px;
-  .set-app{
+  .set-app {
     position: fixed;
     z-index: 999;
     right: 0px;
@@ -148,28 +265,28 @@ export default {
     font-weight: bold;
     text-align: center;
     color: #fff;
-    .menu-setapp{
+    .menu-setapp {
       position: absolute;
       top: 40px;
       right: -200px;
       width: 180px;
       height: 500px;
-      background-color:rgba(39, 39, 39, 0.493);
-      padding:0 10px;
+      background-color: rgba(39, 39, 39, 0.493);
+      padding: 0 10px;
       font-size: 14px;
       text-align: start;
       transition: all 0.2s;
-      .menu-item{
+      .menu-item {
         margin: 5px 0;
         line-height: 1.5;
-        .menu-select{
+        .menu-select {
           box-sizing: border-box;
           display: flex;
-          justify-content:space-between;
+          justify-content: space-between;
           align-items: center;
           flex-wrap: wrap;
           padding: 0 15px;
-          button{
+          button {
             width: 20px;
             height: 20px;
             line-height: 1.5;
@@ -179,9 +296,9 @@ export default {
             border-radius: 50%;
           }
         }
-        .menu-select.menu-theme{
+        .menu-select.menu-theme {
           align-items: flex-start;
-          button{
+          button {
             margin: 3px;
             width: auto;
             border-radius: 5px;
@@ -189,15 +306,15 @@ export default {
         }
       }
     }
-    .menu-active{
+    .menu-active {
       right: 0px;
     }
   }
-  .content-wrap{
+  .content-wrap {
     margin-bottom: 30px;
     box-sizing: border-box;
     padding: 10px;
-    .tips-end{
+    .tips-end {
       display: inline-block;
       width: 100%;
       padding-top: 30px;
@@ -205,29 +322,28 @@ export default {
       text-align: center;
     }
   }
-  .title-detail{
+  .title-detail {
     line-height: 4;
     font-weight: bold;
   }
-  .content-detail{
+  .content-detail {
     line-height: 1.8;
-    letter-spacing:3px;
+    letter-spacing: 3px;
     text-align: justify;
     text-indent: 2em;
     color: inherit;
   }
-  .detail-btn{
+  .detail-btn {
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     padding: 20px;
-    .detail-select{
+    .detail-select {
       margin: 0 50px;
       outline: none;
       border: none;
       border-radius: 5px;
-      background-color: #dadada;
-      &:active{
+      &:active {
         filter: blur(2px);
       }
     }
