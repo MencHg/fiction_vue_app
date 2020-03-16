@@ -1,0 +1,129 @@
+<template>
+  <section class="me">
+    <section class="user-head">
+      <div class="user-avatar">
+        <span class="username">mengc</span>
+        <img class="avatar-image" src="../../assets/logo.png" @click="$router.push('/login')" />
+      </div>
+    </section>
+    <ul class="user-history">
+      <li v-if="!history.length">当前无记录</li>
+      <li class="history-item" v-if="history.length">
+        
+      </li>
+    </ul>
+    <ul class="user-select">
+      <li class="select-item"  v-for="(item,index) in select" :key="index">
+        <span class="select-name">{{item.name}}</span>
+        <i :class="['iconfont',item.icon]"></i>
+      </li>
+    </ul>
+    <p class="app-version">
+      version v_1.0.0
+    </p>
+  </section>
+</template>
+<script>
+export default {
+  name: "me",
+  components: {},
+  data: () => ({
+    select:[
+      {
+        name:"我的书架",
+        icon:"icon-web__jiantou_you",
+        link:"/like"
+      },
+      {
+        name:"历史记录",
+        icon:"icon-web__jiantou_you",
+        link:"/like"
+      },
+      {
+        name:"个性设置",
+        icon:"icon-web__shezhi",
+        link:"/like"
+      },
+      {
+        name:"关于我们",
+        icon:"icon-web__jiantou_you",
+        link:"/like"
+      },
+    ],
+    history:[]
+  }),
+  created() {
+
+  },
+  methods: {
+
+  }
+};
+</script>
+<style lang="less" scoped>
+.me {
+  height: 100%;
+  background-color: #f4f4f4e5;
+  .user-head {
+    position: relative;
+    height: 160px;
+    background-image: linear-gradient(
+      30deg,
+      #f66 0%,
+      #6f9483 50%,
+      #ffbc2bf9 90%
+    );
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+    .user-avatar {
+      position: absolute;
+      bottom: -20px;
+      right: 35px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      .avatar-image {
+        margin-left: 25px;
+        width: 65px;
+      }
+      .username {
+        color: #eee;
+      }
+    }
+  }
+  .user-history{
+    margin:25px 10px 0;
+    box-sizing: border-box;
+    height: 90px;
+    background-color: #fff;
+    padding: 9px;
+  }
+  .user-select {
+    margin-top: 10px;
+    box-sizing: border-box;
+    padding: 9px;
+    .select-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+      box-sizing: inherit;
+      line-height: 2;
+      background-color: #fff;
+      padding: 2px 10px;
+      font-size: 15px;
+    }
+  }
+  .app-version{
+    position: absolute;
+    left: 0;
+    bottom: 90px;
+    width: 100%;
+    line-height: 2;
+    font-size: 12px;
+    text-align: center;
+    color: #aaa;
+  }
+}
+</style>
