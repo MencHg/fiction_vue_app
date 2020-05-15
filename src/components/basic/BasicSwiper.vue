@@ -63,14 +63,12 @@ export default {
         case "priv":
           this.swiperClassList.push(this.swiperClassList[0]);
           this.swiperClassList.shift();
-          console.log(picType);
           break;
         case "next":
           this.swiperClassList.unshift(
             this.swiperClassList[this.swiperClassList.length - 1]
           );
           this.swiperClassList.pop();
-          console.log(picType);
           break;
       }
     },
