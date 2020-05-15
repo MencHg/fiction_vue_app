@@ -54,6 +54,10 @@ const routes = [
     name: 'userinfo',
     component: () => import( '@/components/user_child/Userinfo.vue')
   },
+  {
+    path: '*',
+    component: () => import( '@/components/AppNotFunt.vue')
+  },
 ];
 const router = new VueRouter({
   // mode: 'history',

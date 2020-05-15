@@ -73,7 +73,7 @@ export default {
       this.linkId = url.list;
       console.log(this.linkId);
       this.axios
-        .get("/api/qqxs/chaplist?id="+this.linkId)
+        .get("/qqxs/chaplist?id="+this.linkId)
         .then(result => {
           this.article = result.data.articleList;
           console.log(this.article);

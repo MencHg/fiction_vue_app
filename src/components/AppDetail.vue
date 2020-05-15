@@ -141,7 +141,7 @@ export default {
     },
     getArticleDetail(article) {
       this.axios
-        .get("/api/qqxs/detail?id=" + article)
+        .get("/qqxs/detail?id=" + article)
         .then(result => {
           this.article.push(result.data.result);
         })

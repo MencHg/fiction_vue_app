@@ -1,11 +1,8 @@
 <template>
   <section class="app-home">
-    <keep-alive>
-      <section class="view-routers">
-        <router-view />
-      </section>
-    </keep-alive>
-
+    <section class="view-routers">
+      <router-view />
+    </section>
     <BasicTabar :navs="tabar" />
   </section>
 </template>
@@ -19,24 +16,24 @@ export default {
   data: () => ({
     tabar: [
       {
-        name: "书架",
+        name: "推荐",
         link: "/index",
-        icon: "icon-biaoqian"
+        icon: "icon-rementuijian"
       },
       {
         name: "分类",
         link: "/category",
-        icon: "icon-fenlei"
+        icon: "icon-piaojufenlei"
       },
       {
-        name: "发现",
+        name: "书架",
         link: "/discover",
-        icon: "icon-faxian"
+        icon: "icon-shujia1"
       },
       {
         name: "我的",
         link: "/about",
-        icon: "icon-yonghutouxiang"
+        icon: "icon-hy_user"
       }
     ]
   }),
@@ -51,6 +48,7 @@ export default {
   background-color: #fff;
   .view-routers {
     overflow-y: auto;
+    overflow-x: hidden;
     width: 100%;
     height: calc(100% - 50px);
   }

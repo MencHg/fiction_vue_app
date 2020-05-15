@@ -32,6 +32,11 @@ body,
   height: 100%;
   color: var(--gcolor);
 };
+#app{
+  margin: 0 auto;
+  max-width: 640px;
+  overflow-x: hidden;
+}
 .slide-fade-enter-active {
   transition: all .3s ease;
 }

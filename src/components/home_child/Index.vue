@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     getData() {
-      this.axios("/api/qqxs/home")
+      this.axios("/qqxs/home")
         .then(result => {
           this.list = result.data.result.list;
           this.banners = result.data.result.banner;
