@@ -8,6 +8,26 @@
 <script>
 export default {
   name: "app",
+  created(){
+    
+  },
+  methods:{
+    windowResizeListen(){
+      let root = document.getElementById('app');
+      let pageWidth = root.getBoundingClientRect().width;
+      let rem = pageWidth/3.75
+      document.documentElement.style.fontSize = rem + 'px'
+      console.log(rem);
+    }
+  },
+  mounted(){
+    this.windowResizeListen()
+    this.$nextTick(()=>{
+      window.onresize = ()=>{
+        this.windowResizeListen()
+      }
+    })
+  }
 };
 </script>
 <style lang="less">
@@ -33,9 +53,11 @@ body,
   color: var(--gcolor);
 };
 #app{
+  position: relative;
   margin: 0 auto;
-  max-width: 640px;
+  max-width: 600px;
   overflow-x: hidden;
+  font-size: 16px;
 }
 .slide-fade-enter-active {
   transition: all .3s ease;

@@ -2,6 +2,7 @@
 <!-- <router-link :to="{  path:'chapterlist',  query:{ list: item.link} }"> -->
 <template>
   <div class="home">
+    <BasicSearchBox />
     <div class="banner">
       <BasicSwiper :swiperList="banners" link="chapterlist" />
     </div>
@@ -19,10 +20,11 @@
   </div>
 </template>
 <script>
+import BasicSearchBox  from '@/components/basic/BasicSearchBox'
 import  BasicSwiper from "@/components/basic/BasicSwiper";
 export default {
   name: "Home",
-  components: {BasicSwiper},
+  components: {BasicSwiper,BasicSearchBox},
   data() {
     return {
       list: [],

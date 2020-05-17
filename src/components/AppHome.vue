@@ -27,7 +27,7 @@ export default {
       },
       {
         name: "书架",
-        link: "/discover",
+        link: "/like",
         icon: "icon-shujia1"
       },
       {

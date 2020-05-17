@@ -18,9 +18,9 @@ const routes = [
         component: () => import( '@/components/home_child/Me.vue')
       },
       {
-        path: 'discover',
-        name: 'discover',
-        component: () => import( '@/components/home_child/Discover.vue')
+        path: 'like',
+        name: 'BookLike',
+        component: () => import( '@/components/home_child/BookLike.vue')
       },
       {
         path: 'category',
@@ -53,6 +53,11 @@ const routes = [
     path: '/userinfo',
     name: 'userinfo',
     component: () => import( '@/components/user_child/Userinfo.vue')
+  },
+  {
+    path: '/search/:id',
+    name: 'Search',
+    component: () => import( '@/components/AppSearch.vue')
   },
   {
     path: '*',

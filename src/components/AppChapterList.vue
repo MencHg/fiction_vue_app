@@ -87,6 +87,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .chapterlist {
+  position: relative;
   padding-top: 40px;
   .article-intro {
     background-color: #f5f5f5d7;

@@ -45,6 +45,7 @@ export default {
     this.mouseListen();
   },
   methods: {
+    //处理鼠标划入状态的方法
     mouseListen(mouseType) {
       switch (mouseType) {
         case "mouseenter":
@@ -57,8 +58,8 @@ export default {
           break;
       }
     },
-    tabPic(picType) {
-      console.log(picType);
+    tabPic(picType) { 
+      //切换图片展示的方法
       switch (picType) {
         case "priv":
           this.swiperClassList.push(this.swiperClassList[0]);
@@ -73,6 +74,7 @@ export default {
       }
     },
     initClassName() {
+      //初始化图片位置的方法
       if (this.swiperList.length > 4) {
         for (let i = 0; i < this.swiperList.length - 4; i++) {
           this.swiperClassList.push("slider-fade-item");
@@ -84,14 +86,18 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {},
+  beforeDestroy(){
+    //跳转页面前清除定时器
+    clearInterval(this.autoplayer);
+  }
 };
 </script>
 <style lang="less" scoped>
 .swiper {
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 1.8rem;
   background-color: #eee;
   li,
   .pic-btn {
@@ -107,7 +113,7 @@ export default {
     transform-style: preserve-3d;
     perspective: 800px;
     li {
-      width: 125px;
+      width: 1.25rem;
       height: 100%;
       img {
         width: 100%;
@@ -139,7 +145,7 @@ export default {
       transform: rotateY(-40deg) translateY(-50%);
     }
     .slider-fade-enter {
-      right: -36px;
+      right: -0.38rem;
       transform-origin: left;
       transform: rotateY(30deg) translateY(-50%);
     }
@@ -156,10 +162,10 @@ export default {
     font-size: 18px;
   }
   .pic-btn.priv-pic {
-    left: 10px;
+    left: 0.08rem;
   }
   .pic-btn.next-pic {
-    right: 10px;
+    right: 0.08rem;
   }
 }
 </style>
