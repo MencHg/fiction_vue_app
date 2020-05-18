@@ -34,11 +34,10 @@ export default {
   },
   created() {
     this.getData();
-    // this.getBannerList();
   },
   methods: {
     getData() {
-      this.axios("/qqxs/home")
+      this.axios("/fiction/home")
         .then(result => {
           this.list = result.data.result.list;
           this.banners = result.data.result.banner;

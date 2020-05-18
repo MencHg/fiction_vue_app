@@ -114,7 +114,7 @@ export default {
     getData(typeid,page) {
       console.log(typeid,page);
       
-      this.axios.get('/qqxs/category?typeid='+typeid+'&page='+page)
+      this.axios.get('/fiction/category?typeid='+typeid+'&page='+page)
         .then((result) => {
           this.list.push(...result.data.result.list);
           this.page_number = result.data.result.page_number;

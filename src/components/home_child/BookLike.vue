@@ -37,7 +37,7 @@ export default {
   methods: {
     search() {
       this.axios
-        .post("/qqxs/search",{keywords:this.keywords})
+        .post("/fiction/search",{keywords:this.keywords})
         .then(result => {
           this.list = result.data.list;
           console.log(this.list)

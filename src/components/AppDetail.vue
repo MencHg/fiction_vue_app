@@ -1,5 +1,5 @@
 <template>
-  <article :class="['detail',theme.theme]" :style="{'font-size':fontSize+'px'}">
+  <article :class="['detail','page-blank',theme.theme]" :style="{'font-size':fontSize+'px'}">
     <BasicBlank :bgc="theme.bgc" :color="theme.color" />
     <div class="set-app">
       <i class="iconfont icon-web__shezhi" @click="setApp"></i>
@@ -141,8 +141,9 @@ export default {
     },
     getArticleDetail(article) {
       this.axios
-        .get("/qqxs/detail?id=" + article)
+        .get("/fiction/detail?id=" + article)
         .then(result => {
+          console.log(result.data.result);
           this.article.push(result.data.result);
         })
         .catch(err => {
@@ -175,92 +176,58 @@ export default {
   background-color: #444;
   color: #eeeeee;
 }
+.mangosteen::after,.sun::after,.eye::after,.songd::after{
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .detail.mangosteen {
-  position: relative;
   color: rgb(223, 223, 223);
   &::after {
     content: "";
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-image: url("http://img1.imgtn.bdimg.com/it/u=1079891450,3194650925&fm=26&gp=0.jpg");
-    background-position: 0 0;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
     filter: blur(6px);
   }
 }
 .detail.sun {
-  position: relative;
   color: rgb(80, 80, 87);
   &::after {
     content: "";
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-image: url("http://img0.imgtn.bdimg.com/it/u=1316619747,2950997811&fm=26&gp=0.jpg");
-    background-position: 0 0;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
     filter: blur(4px);
   }
 }
 .detail.eye {
-  position: relative;
   color: rgb(92, 88, 88);
   &::after {
     content: "";
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-image: url("http://img3.imgtn.bdimg.com/it/u=3268167055,48134426&fm=26&gp=0.jpg");
-    background-position: 0 0;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
     filter: blur(4px);
   }
 }
 .detail.songd {
-  position: relative;
   color: rgb(236, 235, 235);
   &::after {
     content: "";
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-image: url("http://img0.imgtn.bdimg.com/it/u=4121703078,3693471928&fm=26&gp=0.jpg");
-    background-position: 0 0;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
     filter: blur(6px);
   }
 }
 .detail {
-  //
   padding-top: 40px;
   .set-app {
-    position: fixed;
+    position: absolute;
     z-index: 999;
     right: 0px;
     top: 0px;
     width: 60px;
-    height: 45px;
+    height: 45px; 
     line-height: 45px;
     font-weight: bold;
     text-align: center;

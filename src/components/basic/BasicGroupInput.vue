@@ -8,7 +8,8 @@
                 :placeholder="placeholder"
                 :value="value"
                 @input="$emit('input',$event.target.value)"
-                 />
+            />
+            <button v-if="verify" class="group-affter" @click="$emit('verifyClick')">{{verify}}</button>
         </div>
         <p class="err-tip"><span v-show="tips">{{tips}}</span></p>
     </div>
@@ -17,6 +18,10 @@
 export default {
     name:"name",
     props:{
+        verify:{
+            type:String,
+            default:""
+        },
         width:{
             type:String,
             default:"100%"
@@ -35,7 +40,7 @@ export default {
         },
         tips:{
             type:String,
-            default:"text"
+            default:""
         },
         value:String
     },
@@ -46,6 +51,7 @@ export default {
     margin: 4px auto;
 }
 .input-focus{
+    position: relative;
     box-sizing: var(--bsin);
     display: flex;
     justify-content: space-between;
@@ -76,6 +82,21 @@ export default {
         outline: none;
         font-size: var(--desc);
         border: none;
+    }
+    .group-affter{
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        outline: none;
+        border: none;
+        width: 80px;
+        height: 20px;
+        background-color: #eee;
+        font-size: 12px;
+        &:active{
+            background-color: #41b881;
+            color: #eee;
+        }
     }
 }
 .err-tip{

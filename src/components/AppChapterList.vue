@@ -1,5 +1,5 @@
 <template>
-  <section class="chapterlist" v-show="article.cover_image">
+  <section class="chaplist page-blank" v-show="article.cover_image">
     <BasicBlank />
     <div class="article-intro">
       <article class="intro-head">
@@ -46,7 +46,7 @@
 <script>
 import BasicBlank from "./basic/BasicBlank";
 export default {
-  name: "chapterlist",
+  name: "chaplist",
   components: {
     BasicBlank
   },
@@ -73,7 +73,7 @@ export default {
       this.linkId = url.list;
       console.log(this.linkId);
       this.axios
-        .get("/qqxs/chaplist?id="+this.linkId)
+        .get("/fiction/chaplist?id="+this.linkId)
         .then(result => {
           this.article = result.data.articleList;
           console.log(this.article);
@@ -86,9 +86,8 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.chapterlist {
-  position: relative;
-  padding-top: 40px;
+.chaplist {
+  padding: 40px 0 0;
   .article-intro {
     background-color: #f5f5f5d7;
     font-size: 16px;

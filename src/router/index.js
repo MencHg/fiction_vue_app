@@ -60,12 +60,17 @@ const routes = [
     component: () => import( '@/components/AppSearch.vue')
   },
   {
+    path: '/repassword',
+    name: 'Repassword',
+    component: () => import( '@/components/user_child/Repassword.vue')
+  },
+  {
     path: '*',
     component: () => import( '@/components/AppNotFunt.vue')
   },
 ];
 const router = new VueRouter({
-  // mode: 'history',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
 });

@@ -71,5 +71,8 @@ body,
 }
 .page-blank{
   padding: var(--page);
+  box-sizing: border-box;
+  overflow-y: auto;
+  height: 100%;
 };
 </style>

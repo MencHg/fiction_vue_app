@@ -55,7 +55,7 @@ export default {
     history:[]
   }),
   created() {
-    console.log(this.$store.getters);
+    // console.log(this.$store.getters);
   },
   methods: {
 

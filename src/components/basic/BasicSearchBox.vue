@@ -1,9 +1,7 @@
 <template>
   <section class="b-search">
     <div class="search-logo">
-      <!-- <i class="iconfont icon-left-angle"></i> -->
-      <img src="@/assets/s-logo.png" alt />
-      <span class="logo-text">掌阅</span>
+      <img src="@/assets/logo-yushu.png" alt />
     </div>
     <div class="search-input">
       <router-link :to="'/search/'+ keywords">
@@ -48,15 +46,11 @@ export default {
     width: 20%;
     font-size: 20px;
     img {
-      height: 100%;
+      width: 110%;
+      height: 95%;
     }
     .icon-faxianshebei {
       font-size: 0.3rem !important;
-    }
-    .logo-text {
-      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-      font-size: 18px;
     }
   }
   .search-input {

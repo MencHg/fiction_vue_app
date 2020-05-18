@@ -8,7 +8,8 @@ module.exports = {
     proxy: {
       // 配置跨域
       '': {
-        target: 'https://pc.ltyes.com',
+        // target: 'https://pc.ltyes.com',
+        target: 'http://localhost:9915',
         ws: true,
         changOrigin: true,
         pathRewrite: {
