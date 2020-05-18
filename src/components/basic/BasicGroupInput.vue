@@ -85,13 +85,13 @@ export default {
     }
     .group-affter{
         position: absolute;
-        top: 6px;
-        right: 8px;
+        top: 3px;
+        right: 4px;
         outline: none;
         border: none;
         width: 80px;
-        height: 20px;
         background-color: #eee;
+        padding: 5px 0;
         font-size: 12px;
         &:active{
             background-color: #41b881;
