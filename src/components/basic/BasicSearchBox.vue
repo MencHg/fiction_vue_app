@@ -21,7 +21,8 @@ export default {
     keywords:{
       type:String,
       default:""
-    }
+    },
+    
   }
 };
 </script>
@@ -43,7 +44,7 @@ export default {
     height: 90%;
   }
   .search-logo {
-    width: 20%;
+    width: 18%;
     font-size: 20px;
     img {
       width: 110%;

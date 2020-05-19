@@ -2,14 +2,14 @@
   <section class="me">
     <section class="user-head">
       <div class="user-avatar">
-        <!-- <span class="username" v-if="$store.getters.userinfo.nickname">mengc</span> -->
-        <span class="username">{{$store.getters.userinfo.nickname}}</span>
-        <!-- <img class="avatar-image" v-if="$store.getters.userinfo.avatarUrl" src="../../assets/logo.png" @click="$router.push('/login')" /> -->
-        <img class="avatar-image" :src="$store.getters.userinfo.avatarUrl" alt="">
+        <span class="username" v-if="!$store.getters.userinfo.userinfo.nickname">未登陆</span>
+        <span class="username">{{$store.getters.userinfo.userinfo.nickname}}</span>
+        <img class="avatar-image" v-if="!$store.getters.userinfo.userinfo.avatarUrl" src="" @click="$router.push('/login')" />
+        <img class="avatar-image" :src="$store.getters.userinfo.userinfo.avatarUrl" alt="">
       </div>
     </section>
     <ul class="user-history">
-      <li v-if="!history.length">当前无记录</li>
+      <li v-if="!history.length">最近在看</li>
       <li class="history-item" v-if="history.length">
         
       </li>
@@ -32,19 +32,15 @@ export default {
   data: () => ({
     select:[
       {
-        name:"我的书架",
+        name:"我的收藏",
         icon:"icon-web__jiantou_you",
         link:"/like"
       },
       {
-        name:"历史记录",
+        name:"累计阅读",
         icon:"icon-web__jiantou_you",
-        link:"/like"
-      },
-      {
-        name:"个性设置",
-        icon:"icon-web__shezhi",
-        link:"/like"
+        count:0,
+        link:"read"
       },
       {
         name:"关于我们",
@@ -56,13 +52,13 @@ export default {
   }),
   created() {
     this.getUserInfo()
+    console.log(window.location.pathname,this.$route );
   },
   methods: {
     getUserInfo(){
       this.axios.get('/fiction/userinfo')
         .then(result=>{
-          this.$store.dispatch("setLike", result.data.info);
-          console.log(this.$store.getters);
+          this.$store.dispatch("setUserinfo", result.data.info);
         })
         .catch(err=>console.log(err))
     }
