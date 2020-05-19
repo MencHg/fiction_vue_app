@@ -34,7 +34,7 @@ const mutations = {
 };
 const actions = {
     setUserinfo({ commit }, userinfo) {
-        console.log(userinfo)
+        // console.log(userinfo)
         commit(types.SET_USERINFO, userinfo);
     },
     setStorege({ commit }, storege) {

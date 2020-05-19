@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import axios from "axios";
 import Loadding from '@/assets/js/loadding.js'
-let AUTH_TOKEN = localStorage.ele_token;
+let AUTH_TOKEN = localStorage.article_token;
 axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -16,6 +16,7 @@ const _axios = axios.create(config);
 _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
+    if(AUTH_TOKEN===null) config.headers.common['Authorization'] = localStorage.article_token;
     loadding.open();
     return config;
   },

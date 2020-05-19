@@ -87,12 +87,10 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log(res.data);
-
+          console.log(res.data.token);
           if (res.data.token) {
-            this.$router.push("/about");
             localStorage.setItem("article_token", res.data.token);
-            this.$store.dispatch("setUserinfo", res.data.userinfo);
+            this.$router.push("/about");
           } else {
             this.errMsg.email = res.data.msg;
           }

@@ -55,10 +55,17 @@ export default {
     history:[]
   }),
   created() {
-    // console.log(this.$store.getters);
+    this.getUserInfo()
   },
   methods: {
-
+    getUserInfo(){
+      this.axios.get('/fiction/userinfo')
+        .then(result=>{
+          this.$store.dispatch("setLike", result.data.info);
+          console.log(this.$store.getters);
+        })
+        .catch(err=>console.log(err))
+    }
   }
 };
 </script>
