@@ -1,28 +1,38 @@
 <template>
   <section class="b-search">
-    <div class="search-logo">
+    <div class="search-logo" v-if="!isRouter">
       <img src="@/assets/logo-yushu.png" alt />
     </div>
+    <button class="search-back" @click="$router.go(-1)" v-if="isRouter">返回</button>
     <div class="search-input">
-      <router-link :to="'/search/'+ keywords">
-        <i class="iconfont icon-faxianshebei"></i>
+      <i class="iconfont icon-faxianshebei"></i>
+      <input
+        v-if="isRouter"
+        @input="$emit('input',$event.target.value)"
+        type="text"
+        class="s-input"
+        placeholder="书名/作者"
+      />
+      <router-link class="s-input" v-if="!isRouter" to="/search">
+        <button ></button>
       </router-link>
-      <input @input="$emit('input',$event.target.value)" type="text" class="s-input" placeholder="书名/作者"/>
     </div>
-    <router-link to="/login">
-      登录
-    </router-link>
+    <router-link v-if="!isRouter" to="/login">登录</router-link>
+    <button v-if="isRouter" class="search-btn" @click="$emit('search')">搜索</button>
   </section>
 </template>
 <script>
 export default {
   name: "b-search",
-  props:{
-    keywords:{
-      type:String,
-      default:""
+  props: {
+    keywords: {
+      type: String,
+      default: ""
     },
-    
+    isRouter:{
+      type:Boolean,
+      default:false
+    }
   }
 };
 </script>
@@ -32,9 +42,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  height: 55px;
-  padding: 6px;
+  height: 50px;
+  padding: 4px 6px;
   background-color: #ffffff;
+  border-bottom: 1px solid #eee;
   .search-logo,
   .search-input,
   a {
@@ -43,7 +54,7 @@ export default {
     align-items: center;
     height: 90%;
   }
-  .search-logo {
+  .search-logo,.search-back{
     width: 18%;
     font-size: 20px;
     img {
@@ -57,7 +68,7 @@ export default {
   .search-input {
     box-sizing: border-box;
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
     width: 60%;
     height: 85%;
@@ -65,7 +76,7 @@ export default {
     border-radius: 4px;
     background-color: #eee6;
     padding: 0 8px;
-    .s-input{
+    .s-input {
       box-sizing: border-box;
       width: 88%;
       height: 100%;
@@ -73,15 +84,24 @@ export default {
       border: none;
       font-size: 16px;
     }
-    a {
-      width: 12%;
-      .iconfont{
-        font-size: 22px;
-        color: #aaa;
-      }
+    .iconfont {
+      font-size: 20px;
+      color: #aaa;
+    }
+    button{
+      outline: none;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: transparent;
     }
   }
-  a {
+  .search-btn,.search-back{
+    outline: none;
+    border: none;
+    background-color: transparent;
+  }
+  a,.search-btn,.search-back{
     width: 15%;
     font-size: 16px;
   }

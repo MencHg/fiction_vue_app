@@ -55,7 +55,7 @@ const routes = [
     component: () => import('@/components/user_child/Userinfo.vue')
   },
   {
-    path: '/search/:id',
+    path: '/search',
     name: 'Search',
     component: () => import('@/components/AppSearch.vue')
   },
