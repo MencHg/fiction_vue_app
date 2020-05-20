@@ -87,7 +87,6 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log(res.data.token);
           if (res.data.token) {
             localStorage.setItem("article_token", res.data.token);
             this.$router.push("/about");

@@ -70,6 +70,8 @@ export default {
     getArticleList(url) {
       this.article = {};
       this.linkId = url.list;
+      console.log(this.linkId);
+      
       this.axios
         .get("/fiction/chaplist?id="+this.linkId)
         .then(result => {

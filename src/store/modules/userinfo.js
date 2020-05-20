@@ -8,8 +8,6 @@ const getters = {
 const mutations = {
     [types.SET_USERINFO](state, userinfo) {
         if (userinfo) {
-            console.log(userinfo);
-            
             state.userinfo = userinfo;
         } else {
             state.userinfo = {};
@@ -18,7 +16,6 @@ const mutations = {
 };
 const actions = {
     setUserinfo({ commit }, userinfo) {
-        console.log(userinfo)
         commit(types.SET_USERINFO, userinfo);
     },
 };

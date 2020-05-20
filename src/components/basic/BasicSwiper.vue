@@ -6,7 +6,7 @@
   >
     <ul class="swiper-wrap">
       <li :class="swiperClassList[index]" v-for="(item,index) in swiperList" :key="index">
-        <router-link :to="{  path:link,  query:{ id: item.link} }">
+        <router-link :to="{  path:link,  query:{ list: item.link} }">
           <img :src="item.cover_image" alt />
         </router-link>
       </li>

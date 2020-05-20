@@ -2,7 +2,7 @@ module.exports = {
   // assetsDir: "static",
   indexPath: "index.html",
   //包含运行时编译器,启用会增加10k左右
-  runtimeCompiler: true,
+  // runtimeCompiler: true,
   //生产环境是否构建map
   productionSourceMap: false,
   pages:{
