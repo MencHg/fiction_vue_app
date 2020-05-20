@@ -2,10 +2,10 @@
   <section class="me">
     <section class="user-head">
       <div class="user-avatar">
-        <span class="username" v-if="!$store.getters.userinfo.userinfo.nickname">未登陆</span>
-        <span class="username">{{$store.getters.userinfo.userinfo.nickname}}</span>
-        <img class="avatar-image" v-if="!$store.getters.userinfo.userinfo.avatarUrl" src="" @click="$router.push('/login')" />
-        <img class="avatar-image" :src="$store.getters.userinfo.userinfo.avatarUrl" alt="">
+        <span class="username" v-if="!$store.getters.userinfo.userinfo">未登陆</span>
+        <span class="username" v-if="$store.getters.userinfo.userinfo" >{{$store.getters.userinfo.userinfo.nickname}}</span>
+        <img class="avatar-image" v-if="!$store.getters.userinfo.userinfo" src="" @click="$router.push('/login')" />
+        <img class="avatar-image" v-if="$store.getters.userinfo.userinfo"  :src="$store.getters.userinfo.userinfo.avatarUrl" alt="">
       </div>
     </section>
     <ul class="user-history">
@@ -51,8 +51,7 @@ export default {
     history:[]
   }),
   created() {
-    this.getUserInfo()
-    console.log(window.location.pathname,this.$route );
+    if(!this.$store.getters.userinfo.userinfo) this.getUserInfo()
   },
   methods: {
     getUserInfo(){

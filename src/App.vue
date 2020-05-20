@@ -17,7 +17,6 @@ export default {
       let pageWidth = root.getBoundingClientRect().width;
       let rem = pageWidth/3.75
       document.documentElement.style.fontSize = rem + 'px'
-      console.log(rem);
     }
   },
   mounted(){
@@ -55,7 +54,7 @@ body,
 #app{
   position: relative;
   margin: 0 auto;
-  max-width: 600px;
+  max-width: 768px;
   overflow-x: hidden;
   font-size: 16px;
 }

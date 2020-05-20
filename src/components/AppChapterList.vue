@@ -35,7 +35,7 @@
           :key="index"
           @click="isVip(item)"
         >
-          <i class="iconfont icon-VIP" v-if="item.name_count>1"></i>
+          <!-- <i class="iconfont icon-VIP" v-if="item.name_count>1"></i> -->
           <span>{{item.title}}</span>
           <!-- <router-link :to="{  path:'detail', query:{ id:item.link} }">{{item.title}}</router-link> -->
         </li>
@@ -56,7 +56,6 @@ export default {
   }),
   created() {
     this.getArticleList(this.$route.query);
-    console.log(this.$route.query)
   },
   methods: {
     comment(item) {
@@ -71,12 +70,10 @@ export default {
     getArticleList(url) {
       this.article = {};
       this.linkId = url.list;
-      console.log(this.linkId);
       this.axios
         .get("/fiction/chaplist?id="+this.linkId)
         .then(result => {
           this.article = result.data.articleList;
-          console.log(this.article);
         })
         .catch(err => {
           console.log(err);
@@ -111,7 +108,7 @@ export default {
         padding-left: 10px;
         .article-title {
           line-height: 2;
-          font-size: 20px;
+          font-size: 0.16rem;
           font-weight: bold;
           color: #eeeeee;
         }

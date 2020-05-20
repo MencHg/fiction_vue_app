@@ -6,7 +6,8 @@ let AUTH_TOKEN = localStorage.article_token;
 axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-let loadding = new Loadding(); //soundbyte ray pellets 
+//soundbyte ray pellets 
+let loadding = new Loadding('ray');
 let config = {
   baseURL: process.env.baseURL || process.env.apiUrl || "",
   timeout: 700 * 1000, // Timeout
@@ -14,9 +15,10 @@ let config = {
 };
 const _axios = axios.create(config);
 _axios.interceptors.request.use(
+  // Do something before request is sent
   function(config) {
-    // Do something before request is sent
-    if(AUTH_TOKEN===null) config.headers.common['Authorization'] = localStorage.article_token;
+    // 这里是第一次登陆是刷新token设置
+    if(AUTH_TOKEN===undefined) config.headers.common['Authorization'] = localStorage.getItem('article_token');
     loadding.open();
     return config;
   },

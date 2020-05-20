@@ -8,6 +8,8 @@
       <i class="iconfont icon-faxianshebei"></i>
       <input
         v-if="isRouter"
+        @focus="$emit('focus',$event.type)"
+        @blur="$emit('blur',$event.type)"
         @input="$emit('input',$event.target.value)"
         type="text"
         class="s-input"
@@ -17,7 +19,10 @@
         <button ></button>
       </router-link>
     </div>
-    <router-link v-if="!isRouter" to="/login">登录</router-link>
+    <router-link v-if="!isRouter&&$store.getters.userinfo.userinfo" to="/about">
+      <img class="user-avatar" :src="$store.getters.userinfo.userinfo.avatarUrl" alt="" srcset="">
+    </router-link>
+    <router-link v-if="!isRouter && !$store.getters.userinfo.userinfo" to="/login">登录</router-link>
     <button v-if="isRouter" class="search-btn" @click="$emit('search')">搜索</button>
   </section>
 </template>
@@ -104,6 +109,11 @@ export default {
   a,.search-btn,.search-back{
     width: 15%;
     font-size: 16px;
+    .user-avatar{
+      height: 95%;
+      border-radius: 50%;
+    }
   }
+  
 }
 </style>
