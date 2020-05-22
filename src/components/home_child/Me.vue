@@ -1,65 +1,111 @@
 <template>
   <section class="me">
     <section class="user-head">
+      <croppa
+        v-model="croppa"
+        :width="250"
+        :height="250"
+        :placeholder-font-size="16"
+        :accept="'image/*'"
+        prevent-white-space
+        :initial-image="dataUrl"
+        @init="onInit"
+      ></croppa>
+      <button @click="upLoad">upLoad</button>
       <div class="user-avatar">
         <span class="username" v-if="!$store.getters.userinfo.userinfo">未登陆</span>
-        <span class="username" v-if="$store.getters.userinfo.userinfo" >{{$store.getters.userinfo.userinfo.nickname}}</span>
-        <img class="avatar-image" v-if="!$store.getters.userinfo.userinfo" src="" @click="$router.push('/login')" />
-        <img class="avatar-image" v-if="$store.getters.userinfo.userinfo"  :src="$store.getters.userinfo.userinfo.avatarUrl" alt="">
+        <span
+          class="username"
+          v-if="$store.getters.userinfo.userinfo"
+        >{{$store.getters.userinfo.userinfo.nickname}}</span>
+        <img
+          class="avatar-image"
+          v-if="!$store.getters.userinfo.userinfo"
+          src
+          @click="$router.push('/login')"
+        />
+        <img
+          class="avatar-image"
+          v-if="$store.getters.userinfo.userinfo"
+          :src="$store.getters.userinfo.userinfo.avatarUrl"
+          alt
+        />
       </div>
     </section>
     <ul class="user-history">
       <li v-if="!history.length">最近在看</li>
-      <li class="history-item" v-if="history.length">
-        
-      </li>
+      <li class="history-item" v-if="history.length"></li>
     </ul>
     <ul class="user-select">
-      <li class="select-item"  v-for="(item,index) in select" :key="index">
+      <li class="select-item" v-for="(item,index) in select" :key="index">
         <span class="select-name">{{item.name}}</span>
         <i :class="['iconfont',item.icon]"></i>
       </li>
     </ul>
-    <p class="app-version">
-      version v_1.0.0
-    </p>
+    <p class="app-version">version v_1.0.0</p>
   </section>
 </template>
 <script>
 export default {
   name: "me",
-  components: {},
+  components: {
+    // Croppa
+  },
   data: () => ({
-    select:[
+    croppa: {},
+    dataUrl: "",
+    select: [
       {
-        name:"我的收藏",
-        icon:"icon-web__jiantou_you",
-        link:"/like"
+        name: "我的收藏",
+        icon: "icon-web__jiantou_you",
+        link: "/like"
       },
       {
-        name:"累计阅读",
-        icon:"icon-web__jiantou_you",
-        count:0,
-        link:"read"
+        name: "累计阅读",
+        icon: "icon-web__jiantou_you",
+        count: 0,
+        link: "read"
       },
       {
-        name:"关于我们",
-        icon:"icon-web__jiantou_you",
-        link:"/like"
-      },
+        name: "关于我们",
+        icon: "icon-web__jiantou_you",
+        link: "/like"
+      }
     ],
-    history:[]
+    history: []
   }),
   created() {
-    if(!this.$store.getters.userinfo.userinfo) this.getUserInfo()
+    if (!this.$store.getters.userinfo.userinfo) this.getUserInfo();
   },
+  computed: {},
+
   methods: {
-    getUserInfo(){
-      this.axios.get('/fiction/userinfo')
-        .then(result=>{
+    onInit() {
+      const _this = this
+      this.croppa.addClipPlugin(function(ctx, x, y, w, h) {
+        ctx.beginPath();
+        ctx.arc(x + w / 2, y + h / 2, w / 2, 0, 2 * Math.PI, true);
+        ctx.closePath();
+        console.log(_this.croppa);
+      });
+    },
+    upLoad () {
+      this.croppa.generateBlob(blob => {
+        let formData = new FormData()
+        let self = this
+        formData.append('file', blob, 'png')
+        formData.append('other', 'blahblahblah')
+        // this.showProgress = true
+        console.log(blob,formData);
+      }, 'image/png', 0.1)
+    },
+    getUserInfo() {
+      this.axios
+        .get("/fiction/userinfo")
+        .then(result => {
           this.$store.dispatch("setUserinfo", result.data.info);
         })
-        .catch(err=>console.log(err))
+        .catch(err => console.log(err));
     }
   }
 };
@@ -97,8 +143,8 @@ export default {
       }
     }
   }
-  .user-history{
-    margin:25px 10px 0;
+  .user-history {
+    margin: 25px 10px 0;
     box-sizing: border-box;
     height: 90px;
     background-color: #fff;
@@ -119,7 +165,7 @@ export default {
       font-size: 15px;
     }
   }
-  .app-version{
+  .app-version {
     position: absolute;
     left: 0;
     bottom: 90px;

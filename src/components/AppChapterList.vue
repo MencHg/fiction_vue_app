@@ -3,7 +3,9 @@
     <BasicBlank />
     <div class="article-intro">
       <article class="intro-head">
-        <img :src="article.cover_image" alt class="intro-image" />
+        <div class="image-wrap">
+          <img :src="article.cover_image" alt class="intro-image" />
+        </div>
         <div class="intro-author">
           <h2 class="article-title">{{article.article_title}}</h2>
           <p class="article-author">
@@ -13,9 +15,7 @@
           <p class="article-status">{{article.article_status}}</p>
         </div>
       </article>
-      <article class="intro-text">
-        {{article.article_intro}}
-      </article>
+      <article class="intro-text">{{article.article_intro}}</article>
     </div>
     <article class="article-list">
       <h3 class="list-title">相关推荐</h3>
@@ -35,9 +35,7 @@
           :key="index"
           @click="isVip(item)"
         >
-          <!-- <i class="iconfont icon-VIP" v-if="item.name_count>1"></i> -->
           <span>{{item.title}}</span>
-          <!-- <router-link :to="{  path:'detail', query:{ id:item.link} }">{{item.title}}</router-link> -->
         </li>
       </ul>
     </article>
@@ -58,24 +56,18 @@ export default {
     this.getArticleList(this.$route.query);
   },
   methods: {
-    comment(item) {
-      this.getArticleList({ list: item.link });
+    setHistoryStore() {
+      let history = this.$store.getters.history;
     },
-    isVip(val) {
-      this.$router.push({
-        path: "detail",
-        query: { id: val.link, link: this.linkId }
-      });
+    comment(item) {
+      this.getArticleList({ list: item.link.slice(22) });
     },
     getArticleList(url) {
-      this.article = {};
-      this.linkId = url.list;
-      console.log(this.linkId);
-      
       this.axios
-        .get("/fiction/chaplist?id="+this.linkId)
+        .get("/fiction/chaplist?id=" + url.list)
         .then(result => {
           this.article = result.data.articleList;
+          this.setHistoryStore();
         })
         .catch(err => {
           console.log(err);
@@ -102,11 +94,20 @@ export default {
       );
       padding: 10px;
       color: #ddd;
-      .intro-image {
-        width: 180px;
-        vertical-align: middle;
+      .image-wrap,
+      .intro-author {
+        height: 100%;
+      }
+      .image-wrap {
+        width: 40%;
+        height: 2.2rem;
+        .intro-image {
+          width: 100%;
+          height: 100%;
+        }
       }
       .intro-author {
+        width: 60%;
         padding-left: 10px;
         .article-title {
           line-height: 2;
@@ -129,12 +130,12 @@ export default {
     }
     .intro-text {
       line-height: 1.5;
-      padding:0 10px 10px;
+      padding: 0 10px 10px;
       text-align: justify;
     }
   }
   .article-list {
-    padding:  10px ;
+    padding: 10px;
     .recomment-list {
       margin: 10px 0 20px;
       display: flex;

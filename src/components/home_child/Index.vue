@@ -111,8 +111,11 @@ export default {
       box-sizing: border-box;
       padding: 10px;
       .list-item {
+        overflow: hidden;
         width: 50%;
         line-height: 1.8;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         font-size: 13px;
         span {
           font-weight: bold;
