@@ -1,6 +1,12 @@
 <template>
   <section class="app-search">
-    <BasicSearchBox @blur="isFocus($event)" @focus="isFocus($event)" :isRouter="true" v-model="keywords" @search="searchClick" />
+    <BasicSearchBox
+      @blur="isFocus($event)"
+      @focus="isFocus($event)"
+      :isRouter="true"
+      v-model="keywords"
+      @search="searchClick"
+    />
     <ul :class="['srach-history',{'search-active':!historyActive}]">
       <li class="search-tag" v-if="!historyList.length">记录为空</li>
       <li class="search-tag" v-for="(item,index) in historyList" :key="index">
@@ -11,9 +17,12 @@
     <ul class="search-list">
       <li class="list-space" v-if="!searchList.length">
         <p class="tag-title">热门搜索:</p>
-        <span class="tag-text" @click="historySearch(item)" v-for="(item,index) in historyList" :key="index">
-          {{item}}
-        </span>
+        <span
+          class="tag-text"
+          @click="historySearch(item)"
+          v-for="(item,index) in historyList"
+          :key="index"
+        >{{item}}</span>
       </li>
       <li class="list-item" v-for="(item,index) in searchList" :key="index">
         <div class="cover-img">
@@ -45,15 +54,15 @@ export default {
   },
   data: () => ({
     keywords: "",
-    historyActive:false,
+    historyActive: false,
     searchList: [],
-    historyList: ["秦时明月", "美女总裁", "霸道总裁", "不败战神",]
+    historyList: ["秦时明月", "美女总裁", "霸道总裁", "不败战神"]
   }),
   watch: {},
   filters: {},
   created() {},
   methods: {
-    isFocus(event){
+    isFocus(event) {
       this.historyActive = !this.historyActive;
     },
     clearHistory(historyKey) {
@@ -70,12 +79,10 @@ export default {
     },
     searchClick() {
       this.historyActive = false;
-      // console.log(this.keywords);
       if (this.keywords === "") return;
       this.axios
         .post("/fiction/search", { keywords: this.keywords })
         .then(res => {
-          // console.log(res);
           this.searchList = res.data.list;
         })
         .catch(err => {
@@ -109,7 +116,8 @@ export default {
       border-radius: 2px;
       background-color: #eee;
       font-size: 0.15rem;
-      p,.iconfont{
+      p,
+      .iconfont {
         padding: 0.06rem;
       }
       p {
@@ -124,18 +132,18 @@ export default {
       }
     }
   }
-  .srach-history.search-active{
+  .srach-history.search-active {
     height: 0;
     padding: 0;
     border-color: transparent;
   }
-  .list-space{
+  .list-space {
     padding: 10px;
-    .tag-title{
+    .tag-title {
       margin: 0.08rem 0.03rem;
       font-size: 14px;
     }
-    .tag-text{
+    .tag-text {
       margin: 0.02rem;
       display: inline-block;
       background-color: #eee;

@@ -1,22 +1,28 @@
 <template>
   <section class="book-rack">
+    <!-- <BasicSliderSwiper /> -->
+    <div class="banner-cloud">
+      <a href="https://url.cn/DgmDhEbM" target="_blank" rel="noopener noreferrer">
+        <img src="@/assets/cloud-tencent.jpg" alt />
+      </a>
+    </div>
     <div class="tab-container">
       <BasicTabbar :tabBar="tabBar" :tabActive="tabActive" @tabClick="tabClick" />
     </div>
     <div class="book-container">
       <div class="book-position" :style="{'left': tabActive * -100 + '%'}">
-        <div class="item-container" v-for="(item,index) in bookRack" :key="index">
-          <div class="item-child">
-            <img src="@/assets/logo-yushu.png" alt class="article-cover" />
-            {{index}}
-          </div>
-        </div>
+        <ul class="item-container" v-for="(item,index) in bookRack" :key="index">
+          <li class="item-child">
+            <!-- <img src="@/assets/logo-yushu.png" alt class="article-cover" />
+            {{index}} -->
+          </li>
+        </ul>
       </div>
     </div>
   </section>
 </template>
 <script>
-import BasicTabbar from "../basic/BasicTabbar";
+import BasicTabbar from "../basic/BasicLineTab.vue";
 export default {
   name: "book-rack",
   components: {
@@ -70,6 +76,22 @@ export default {
 <style lang="less" scoped>
 .book-rack {
   height: 100%;
+  .banner-cloud {
+    height: 1.7rem;
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .tab-container {
+    box-sizing: border-box;
+    background-color: #eee;
+  }
   .book-container {
     position: relative;
     overflow-x: hidden;
@@ -80,14 +102,21 @@ export default {
       height: 100%;
       width: 300%;
       transition: 0.2s;
-      .item-container{
+      .item-container {
         float: left;
         overflow-y: auto;
         height: 100%;
         width: 33.3%;
-        .item-child{
+        .item-child {
           width: 100%;
-          img{
+          &::after{
+            content: "暂无记录";
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 1.2rem;
+          }
+          img {
             width: 50%;
           }
         }

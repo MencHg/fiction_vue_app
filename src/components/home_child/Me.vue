@@ -1,45 +1,46 @@
 <template>
   <section class="me">
     <section class="user-head">
-      <croppa
-        v-model="croppa"
-        :width="250"
-        :height="250"
-        :placeholder-font-size="16"
-        :accept="'image/*'"
-        prevent-white-space
-        :initial-image="dataUrl"
-        @init="onInit"
-      ></croppa>
-      <button @click="upLoad">upLoad</button>
       <div class="user-avatar">
-        <span class="username" v-if="!$store.getters.userinfo.userinfo">未登陆</span>
-        <span
-          class="username"
-          v-if="$store.getters.userinfo.userinfo"
-        >{{$store.getters.userinfo.userinfo.nickname}}</span>
         <img
           class="avatar-image"
           v-if="!$store.getters.userinfo.userinfo"
-          src
+          src="@/assets/user.png"
           @click="$router.push('/login')"
         />
         <img
           class="avatar-image"
           v-if="$store.getters.userinfo.userinfo"
+          @click="reAvtarImage"
           :src="$store.getters.userinfo.userinfo.avatarUrl"
           alt
         />
+        <span class="username" v-if="!$store.getters.userinfo.userinfo">未登陆</span>
+        <span
+          class="username"
+          v-if="$store.getters.userinfo.userinfo"
+        >{{$store.getters.userinfo.userinfo.nickname}}</span>
       </div>
     </section>
-    <ul class="user-history">
-      <li v-if="!history.length">最近在看</li>
-      <li class="history-item" v-if="history.length"></li>
-    </ul>
+    <div class="user-history">
+      <h3>最近动态:</h3>
+    </div>
     <ul class="user-select">
-      <li class="select-item" v-for="(item,index) in select" :key="index">
-        <span class="select-name">{{item.name}}</span>
-        <i :class="['iconfont',item.icon]"></i>
+      <li class="select-item">
+        <span class="info-tag">签名:</span>
+        <span v-if="$store.getters.userinfo.userinfo" class="info-content">{{$store.getters.userinfo.userinfo.motto}}</span>
+      </li>
+      <li class="select-item">
+        <span class="info-tag">性别:</span>
+        <span v-if="$store.getters.userinfo.userinfo" class="info-content">{{$store.getters.userinfo.userinfo.gender}}</span>
+      </li>
+      <li class="select-item">
+        <span class="info-tag">城市:</span>
+        <span v-if="$store.getters.userinfo.userinfo" class="info-content">{{$store.getters.userinfo.userinfo.city}}</span>
+      </li>
+      <li class="select-item">
+        <span class="info-tag">注册时间:</span>
+        <span v-if="$store.getters.userinfo.userinfo" class="info-content">{{$store.getters.userinfo.userinfo.registerTime}}</span>
       </li>
     </ul>
     <p class="app-version">version v_1.0.0</p>
@@ -49,55 +50,20 @@
 export default {
   name: "me",
   components: {
-    // Croppa
   },
   data: () => ({
     croppa: {},
     dataUrl: "",
-    select: [
-      {
-        name: "我的收藏",
-        icon: "icon-web__jiantou_you",
-        link: "/like"
-      },
-      {
-        name: "累计阅读",
-        icon: "icon-web__jiantou_you",
-        count: 0,
-        link: "read"
-      },
-      {
-        name: "关于我们",
-        icon: "icon-web__jiantou_you",
-        link: "/like"
-      }
-    ],
+    userinfo: [],
     history: []
   }),
   created() {
     if (!this.$store.getters.userinfo.userinfo) this.getUserInfo();
   },
   computed: {},
-
   methods: {
-    onInit() {
-      const _this = this
-      this.croppa.addClipPlugin(function(ctx, x, y, w, h) {
-        ctx.beginPath();
-        ctx.arc(x + w / 2, y + h / 2, w / 2, 0, 2 * Math.PI, true);
-        ctx.closePath();
-        console.log(_this.croppa);
-      });
-    },
-    upLoad () {
-      this.croppa.generateBlob(blob => {
-        let formData = new FormData()
-        let self = this
-        formData.append('file', blob, 'png')
-        formData.append('other', 'blahblahblah')
-        // this.showProgress = true
-        console.log(blob,formData);
-      }, 'image/png', 0.1)
+    reAvtarImage(){
+      console.log("更换头像事件");
     },
     getUserInfo() {
       this.axios
@@ -116,6 +82,9 @@ export default {
   background-color: rgba(204, 204, 204, 0.575);
   .user-head {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 160px;
     background-image: linear-gradient(
       30deg,
@@ -128,15 +97,12 @@ export default {
     background-attachment: scroll;
     background-size: cover;
     .user-avatar {
-      position: absolute;
-      bottom: -20px;
-      right: 35px;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      text-align: center;
       .avatar-image {
-        margin-left: 25px;
+        margin-bottom: 10px;
+        display: block;
         width: 65px;
+        border-radius: 50%;
       }
       .username {
         color: #eee;
@@ -156,13 +122,21 @@ export default {
     padding: 9px;
     .select-item {
       display: flex;
-      justify-content: space-between;
       margin-bottom: 3px;
       box-sizing: inherit;
       line-height: 2;
       background-color: #fff;
       padding: 2px 10px;
       font-size: 15px;
+      .info-tag {
+        display: flex;
+        width: 22%;
+        justify-content: space-between;
+        text-align: justify;
+      }
+      .info-content{
+        color: #c0c0c0;
+      }
     }
   }
   .app-version {
