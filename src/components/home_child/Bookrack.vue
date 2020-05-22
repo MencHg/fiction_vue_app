@@ -14,7 +14,7 @@
         <ul class="item-container" v-for="(item,index) in bookRack" :key="index">
           <li class="item-child">
             <!-- <img src="@/assets/logo-yushu.png" alt class="article-cover" />
-            {{index}} -->
+            {{index}}-->
           </li>
         </ul>
       </div>
@@ -107,15 +107,15 @@ export default {
         overflow-y: auto;
         height: 100%;
         width: 33.3%;
+        &::after {
+          content: "暂无记录";
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 1.2rem;
+        }
         .item-child {
           width: 100%;
-          &::after{
-            content: "暂无记录";
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 1.2rem;
-          }
           img {
             width: 50%;
           }
