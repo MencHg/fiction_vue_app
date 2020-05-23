@@ -104,7 +104,7 @@ export default {
     }
   },
   created() {
-    this.getArticleDetail(this.$route.query.link + this.$route.query.id);
+    this.getArticleDetail(this.$route.query.id + this.$route.query.link);
     this.initTheme();
   },
   methods: {

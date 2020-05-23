@@ -1,7 +1,7 @@
 <template>
   <section class="b-search">
     <div class="search-logo" v-if="!isRouter">
-      <img src="@/assets/logo-yushu.png" alt />
+      <img src="@/assets/img/logo-yushu.png" alt />
     </div>
     <button class="search-back" @click="$router.go(-1)" v-if="isRouter">返回</button>
     <div class="search-input">

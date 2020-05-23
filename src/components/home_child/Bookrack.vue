@@ -3,7 +3,7 @@
     <!-- <BasicSliderSwiper /> -->
     <div class="banner-cloud">
       <a href="https://url.cn/DgmDhEbM" target="_blank" rel="noopener noreferrer">
-        <img src="@/assets/cloud-tencent.jpg" alt />
+        <img src="@/assets/img/cloud-tencent.jpg" alt />
       </a>
     </div>
     <div class="tab-container">
@@ -13,6 +13,7 @@
       <div class="book-position" :style="{'left': tabActive * -100 + '%'}">
         <ul class="item-container" v-for="(item,index) in bookRack" :key="index">
           <li class="item-child">
+            <span v-if="bookRack" class="boorack-tag">{{bookRack.tips}}</span>
             <!-- <img src="@/assets/logo-yushu.png" alt class="article-cover" />
             {{index}}-->
           </li>
@@ -35,39 +36,44 @@ export default {
         name: "书架收藏",
         link: "bookrack",
         icon: "icon-jiaoshi_shujia"
-      },
-      {
-        name: "历史记录",
-        link: "history",
-        icon: "icon-lishijilu"
-      },
-      {
-        name: "最近章节",
-        link: "lately",
-        icon: "icon-shoucang5"
       }
+      // {
+      //   name: "历史记录",
+      //   link: "history",
+      //   icon: "icon-lishijilu"
+      // },
+      // {
+      //   name: "最近章节",
+      //   link: "lately",
+      //   icon: "icon-shoucang5"
+      // }
     ],
-    bookRack: [
-      {
-        link: "bookrack",
-        children: []
-      },
-      {
-        link: "history",
-        children: []
-      },
-      {
-        link: "lately",
-        children: []
-      }
-    ]
+    bookRack: {
+      link: "bookrack",
+      tips: "暂无记录",
+      children: []
+    }
   }),
   watch: {},
   filters: {},
-  created() {},
+  created() {
+    this.getBookRack();
+  },
   methods: {
     tabClick(key) {
       this.tabActive = key;
+    },
+    getBookRack() {
+      this.axios
+        .post("/fiction/find/bookrack")
+        .then(result => {
+          console.log(result);
+          this.bookRack.tips = "";
+        })
+        .catch(err => {
+          console.log(err.response.status);
+          this.bookRack.tips = "您还没有登录，不能使用该功能哟！~";
+        });
     }
   },
   mounted() {}
@@ -107,12 +113,13 @@ export default {
         overflow-y: auto;
         height: 100%;
         width: 33.3%;
-        &::after {
-          content: "暂无记录";
+        .boorack-tag {
           display: flex;
           justify-content: center;
           align-items: center;
           height: 1.2rem;
+          font-size: 0.14rem;
+          color: #666;
         }
         .item-child {
           width: 100%;

@@ -5,7 +5,7 @@
         <img
           class="avatar-image"
           v-if="!$store.getters.userinfo.userinfo"
-          src="@/assets/user.png"
+          src="@/assets/img/user.png"
           @click="$router.push('/login')"
         />
         <img

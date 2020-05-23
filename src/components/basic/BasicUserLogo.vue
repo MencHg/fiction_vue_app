@@ -1,6 +1,6 @@
 <template>
   <div class="user-logo">
-    <img src="../../assets/logo-yushu.png" alt />
+    <img src="../../assets/img/logo-yushu.png" alt />
   </div>
 </template>
 <script>

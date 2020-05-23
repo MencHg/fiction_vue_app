@@ -24,6 +24,7 @@ export default {
 <style lang="less" scoped>
 .blank {
   position: absolute;
+  z-index: 9;
   top: 0;
   left: 0;
   width: 100%;

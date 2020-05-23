@@ -13,6 +13,7 @@
             {{article.author}}
           </p>
           <p class="article-status">{{article.article_status}}</p>
+          <button :class="['bookrack',{'like':false}]" @click="addBook">{{article.like ? '取消收藏' : '加入书架'}} </button>
         </div>
       </article>
       <article class="intro-text">{{article.article_intro}}</article>
@@ -33,9 +34,8 @@
           class="list-item"
           v-for="(item,index) in article.article_list"
           :key="index"
-          @click="isVip(item)"
         >
-          <span>{{item.title}}</span>
+          <router-link :to="{path:'detail',query:{link:item.link,id:item.article_id}}">{{item.title}}</router-link>
         </li>
       </ul>
     </article>
@@ -62,11 +62,23 @@ export default {
     comment(item) {
       this.getArticleList({ list: item.link.slice(22) });
     },
+    addBook(){
+      console.log(this.article);
+      if(this.$store.getters.userinfo.userinfo){
+
+      }else{
+        
+      }
+    },
     getArticleList(url) {
+      let isLogin = this.$store.getters.userinfo.userinfo ? true :false;
+      let link = isLogin ? "/fiction/chaplist/bookrack?id=": "/fiction/chaplist?id="
+      console.log(link + url.list)
       this.axios
-        .get("/fiction/chaplist?id=" + url.list)
+        .get(link + url.list)
         .then(result => {
           this.article = result.data.articleList;
+          console.log(this.article);
           this.setHistoryStore();
         })
         .catch(err => {
@@ -85,6 +97,7 @@ export default {
     .intro-head {
       display: flex;
       justify-content: space-between;
+      height: 2.18rem;
       background-image: linear-gradient(
         to bottom,
         #41b881 0%,
@@ -100,13 +113,14 @@ export default {
       }
       .image-wrap {
         width: 40%;
-        height: 2.2rem;
+        height: 100%;
         .intro-image {
           width: 100%;
           height: 100%;
         }
       }
       .intro-author {
+        position: relative;
         width: 60%;
         padding-left: 10px;
         .article-title {
@@ -125,6 +139,22 @@ export default {
           line-height: 1.3;
           font-size: 12px;
           color: #eeeeee;
+        }
+        .bookrack{
+          position: absolute;
+          bottom: 0.25rem;
+          left: 0.15rem;
+          outline: none;
+          background-color: #41b881;
+          padding: 0.06rem 0.1rem;
+          font-size: 0.14rem;
+          color: #eee;
+          &:active{
+            filter: blur(2px);
+          }
+        }
+        .bookrack.like{
+          background-color: #d10b46;
         }
       }
     }
