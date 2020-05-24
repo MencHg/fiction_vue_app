@@ -8,10 +8,8 @@
 <script>
 export default {
   name: "app",
-  created(){
-    
-  },
   methods:{
+    
     windowResizeListen(){
       let root = document.getElementById('app');
       let pageWidth = root.getBoundingClientRect().width;

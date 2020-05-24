@@ -5,11 +5,11 @@
     <h2 class="re-title">找回密码:</h2>
     <div class="re-content">
       <span class="re-step">第一步: 输入账号获取邮箱验证码.</span>
-      <BasicGroupInput verify="获取验证码" v-model="email" @verifyClick="getVerify" width="100%" placeholder="账号" icon="icon-youxiang1" />
+      <BasicGroupInput :tips="tips.email" verify="获取验证码" v-model="email" @verifyClick="getVerify" width="100%" placeholder="账号" icon="icon-youxiang1" />
       <span class="re-step">第二步: 输入获取到的验证码.</span>
-      <BasicGroupInput v-model="verify" width="100%" placeholder="验证码" icon="icon-mima2" />
+      <BasicGroupInput :tips="tips.verify" v-model="verify" width="100%" placeholder="验证码" icon="icon-mima2" />
       <span class="re-step">第三步: 输入新密码.</span>
-      <BasicGroupInput type="password" v-model="password" width="100%" placeholder="新密码" icon="icon-mima2" />
+      <BasicGroupInput :tips="tips.password" type="password" v-model="password" width="100%" placeholder="新密码" icon="icon-mima2" />
     </div>
     <div class="re-submit">
       <BasicButton btnTitle="提交修改" width="75%" @click="repassword" />
@@ -33,6 +33,11 @@ export default {
     email: "",
     verify:"",
     password:"",
+    tips:{
+      email: "",
+      verify:"",
+      password:"",
+    }
   }),
   created() {},
   methods: {
@@ -41,20 +46,25 @@ export default {
       this.axios.post('/fiction/verify',{email:this.email})
         .then(res=>{
           console.log(res);
+          this.tips.email = res.data.message;
         })
         .catch(err=>{
           console.log(err);
         })
     },
     repassword(){
-      this.axios.post('/fiction/repassword',{password:this.password,verify:this.verify})
+      this.axios.post('/fiction/repassword',{email:this.email,password:this.password,verify:this.verify})
         .then(result=>{
-          console.log(result);
-          
+          if(result.data.code === 200){
+            this.$store.dispatch('setUserinfo',{})
+            this.$router.push('/login')
+          }else{
+            console.log(result);
+            this.verify = result.data.message;
+          }
         })
         .catch(err=>{
           console.log(err);
-          
         })
     }
   },

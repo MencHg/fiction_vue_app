@@ -13,7 +13,7 @@
             {{article.author}}
           </p>
           <p class="article-status">{{article.article_status}}</p>
-          <button :class="['bookrack',{'like':false}]" @click="addBook">{{article.like ? '取消收藏' : '加入书架'}} </button>
+          <button :disabled="article.like" :class="['bookrack',{'like':article.like}]" @click="addBook">{{article.like ? '已收藏' : '加入书架'}} </button>
         </div>
       </article>
       <article class="intro-text">{{article.article_intro}}</article>
@@ -63,11 +63,24 @@ export default {
       this.getArticleList({ list: item.link.slice(22) });
     },
     addBook(){
-      console.log(this.article);
       if(this.$store.getters.userinfo.userinfo){
-
+        this.axios.post('/fiction/add/bookrack',{
+          bookid:this.article.id,
+          article_title: this.article.article_title,
+          cover_image:this.article.cover_image,
+          article_intro: this.article.article_intro,
+          article_status:this.article.article_status,
+          author:this.article.author,
+          lately:""
+        })
+            .then(res=>{
+              this.article.like = true
+            })
+            .catch(err=>{
+              console.log(err);
+            })
       }else{
-        
+        alert('你还没有登录！~')
       }
     },
     getArticleList(url) {

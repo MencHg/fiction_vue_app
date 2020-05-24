@@ -91,7 +91,7 @@ export default {
             localStorage.setItem("article_token", res.data.token);
             this.$router.push("/about");
           } else {
-            this.errMsg.email = res.data.msg;
+            this.errMsg.email = res.data.message;
           }
         })
         .catch(err => {

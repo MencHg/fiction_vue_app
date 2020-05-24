@@ -36,11 +36,22 @@ export default {
     this.getData();
   },
   methods: {
+    getUserinfo(){
+      let isToken = window.localStorage.getItem('article_token')  ? true : false;
+      if(isToken){
+        this.axios.get("/fiction/userinfo")
+        .then(result => {
+          this.$store.dispatch("setUserinfo", result.data.info);
+        })
+        .catch(err => console.log(err));
+      }
+    },
     getData() {
       this.axios("/fiction/home")
         .then(result => {
           this.list = result.data.result.list;
           this.banners = result.data.result.banner;
+          this.getUserinfo();
         })
         .catch(err => {});
     },

@@ -1,7 +1,9 @@
 <template>
   <section class="app-home">
     <section class="view-routers">
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </section>
     <BasicTabar :navs="tabar" />
   </section>

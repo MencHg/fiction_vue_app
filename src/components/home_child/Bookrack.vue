@@ -11,11 +11,14 @@
     </div>
     <div class="book-container">
       <div class="book-position" :style="{'left': tabActive * -100 + '%'}">
-        <ul class="item-container" v-for="(item,index) in bookRack" :key="index">
+        <ul class="item-container" v-if="bookRack.children.length === 0">
           <li class="item-child">
-            <span v-if="bookRack" class="boorack-tag">{{bookRack.tips}}</span>
-            <!-- <img src="@/assets/logo-yushu.png" alt class="article-cover" />
-            {{index}}-->
+            <span class="boorack-tag">{{bookRack.tips}}</span>
+          </li>
+        </ul>
+        <ul class="item-container" v-if="bookRack.children.length">
+          <li class="item-child" v-for="(item,index) in bookRack.children" :key="index">
+            <basic-article-cover :item="item" />
           </li>
         </ul>
       </div>
@@ -24,10 +27,12 @@
 </template>
 <script>
 import BasicTabbar from "../basic/BasicLineTab.vue";
+import BasicArticleCover from '../basic/BasicArticleCover.vue';
 export default {
   name: "book-rack",
   components: {
-    BasicTabbar
+    BasicTabbar,
+    BasicArticleCover
   },
   data: () => ({
     tabActive: 0,
@@ -37,29 +42,24 @@ export default {
         link: "bookrack",
         icon: "icon-jiaoshi_shujia"
       }
-      // {
-      //   name: "历史记录",
-      //   link: "history",
-      //   icon: "icon-lishijilu"
-      // },
-      // {
-      //   name: "最近章节",
-      //   link: "lately",
-      //   icon: "icon-shoucang5"
-      // }
     ],
     bookRack: {
       link: "bookrack",
       tips: "暂无记录",
       children: []
-    }
+    },
   }),
   watch: {},
   filters: {},
   created() {
-    this.getBookRack();
+    this.isGetBookRack()
   },
   methods: {
+    isGetBookRack(){
+      if(this.$store.getters.userinfo.userinfo){
+        this.getBookRack();
+      }
+    },
     tabClick(key) {
       this.tabActive = key;
     },
@@ -68,10 +68,12 @@ export default {
         .post("/fiction/find/bookrack")
         .then(result => {
           console.log(result);
+          this.bookRack.children = result.data.bookrack;
           this.bookRack.tips = "";
+          console.log(this.bookRack.children.length);
         })
         .catch(err => {
-          console.log(err.response.status);
+          // console.log(err.response);
           this.bookRack.tips = "您还没有登录，不能使用该功能哟！~";
         });
     }
@@ -101,7 +103,7 @@ export default {
   .book-container {
     position: relative;
     overflow-x: hidden;
-    height: calc(100% - 45px);
+    height: calc(100% - 42px - 1.7rem);
     .book-position {
       position: absolute;
       top: 2px;
@@ -113,6 +115,26 @@ export default {
         overflow-y: auto;
         height: 100%;
         width: 33.3%;
+        .item-child{
+          box-sizing: border-box;
+          display: flex;
+          justify-content: space-between;
+          padding: 0.06rem;
+          height: 2rem;
+          .article-image,.article-intro{
+            height: 100%;
+          }
+          .article-image{
+            width: 40%;
+            a,img{
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .article-intro{
+            width: 59%;
+          }
+        }
         .boorack-tag {
           display: flex;
           justify-content: center;
