@@ -9,11 +9,12 @@
       <h3 class="intro-title">{{item.article_title}}</h3>
       <p class="intro-author">作者：{{item.author}}</p>
       <p class="intro-desc">{{item.article_intro}}</p>
-      <p class="intro-lately">
-        <router-link :to="{path:'detail',query:{link:item.link,id:item.article_id}}">
-          {{item.lately}}
-        </router-link>
-      </p>
+      <button 
+        :class="['intro-lately',{'read-lately':item.lately.title === '无记录'}]"
+        :disabled="item.lately.title === '无记录'"
+        @click="latelyRead(item.lately.id)">
+        {{item.lately.title}}
+      </button>
     </div>
   </section>
 </template>
@@ -25,6 +26,15 @@ export default {
     item:Object,
     defalut:null
   },
+  methods:{
+    latelyRead(item){
+      let hash =  item.split('/')
+      this.$router.push({
+        path:"detail",
+        query:{link:`${hash[2]}`,id:`${hash[0]}/${hash[1]}/`}
+      }).catch(err=>console.log(err));
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -47,6 +57,7 @@ export default {
     }
   }
   .article-intro {
+    position: relative;
     width: 58%;
     .intro-title,.intro-author,.intro-desc{
       padding-bottom: 0.04rem;
@@ -65,13 +76,21 @@ export default {
       color: #666;
     }
     .intro-lately{
-      font-size: 0.14rem;
-      a{
-        display: inline-block;
-        min-width: 0.2rem;
-        padding: 0.04rem 0.08rem;
-        background-color: #eeeeee;
-      }
+      position: absolute;
+      bottom: 0.04rem;
+      left: 0;
+      width: 1.2rem;
+      padding: 0.03rem 0.1rem;
+      background-color: #41b881;
+      border-radius: 0.15rem;
+      outline: none;
+      border: none;
+      font-size: 0.12rem;
+      color: #eeeeee;
+    }
+    .read-lately{
+      background-color: #eeeeee;
+      color: #555;
     }
   }
 }

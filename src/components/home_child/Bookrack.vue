@@ -1,6 +1,5 @@
 <template>
   <section class="book-rack">
-    <!-- <BasicSliderSwiper /> -->
     <div class="banner-cloud">
       <a href="https://url.cn/DgmDhEbM" target="_blank" rel="noopener noreferrer">
         <img src="@/assets/img/cloud-tencent.jpg" alt />
@@ -56,7 +55,7 @@ export default {
   },
   methods: {
     isGetBookRack(){
-      if(this.$store.getters.userinfo.userinfo){
+      if(this.$store.getters.userinfo.userinfo || window.localStorage.getItem('article_token')){
         this.getBookRack();
       }
     },
@@ -73,7 +72,6 @@ export default {
           console.log(this.bookRack.children.length);
         })
         .catch(err => {
-          // console.log(err.response);
           this.bookRack.tips = "您还没有登录，不能使用该功能哟！~";
         });
     }
@@ -137,6 +135,7 @@ export default {
         }
         .boorack-tag {
           display: flex;
+          width: 100%;
           justify-content: center;
           align-items: center;
           height: 1.2rem;

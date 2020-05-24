@@ -13,7 +13,11 @@
             {{article.author}}
           </p>
           <p class="article-status">{{article.article_status}}</p>
-          <button :disabled="article.like" :class="['bookrack',{'like':article.like}]" @click="addBook">{{article.like ? '已收藏' : '加入书架'}} </button>
+          <button
+            :disabled="article.like"
+            :class="['bookrack',{'like':article.like}]"
+            @click="addBook"
+          >{{article.like ? '已收藏' : '加入书架'}}</button>
         </div>
       </article>
       <article class="intro-text">{{article.article_intro}}</article>
@@ -30,12 +34,10 @@
       </ul>
       <h2 class="list-title">正文列表</h2>
       <ul class="list-wrap">
-        <li
-          class="list-item"
-          v-for="(item,index) in article.article_list"
-          :key="index"
-        >
-          <router-link :to="{path:'detail',query:{link:item.link,id:item.article_id}}">{{item.title}}</router-link>
+        <li class="list-item" v-for="(item,index) in article.article_list" :key="index">
+          <router-link
+            :to="{path:'detail',query:{id: item.article_id,link: item.link}}"
+          >{{item.title}}</router-link>
         </li>
       </ul>
     </article>
@@ -62,31 +64,34 @@ export default {
     comment(item) {
       this.getArticleList({ list: item.link.slice(22) });
     },
-    addBook(){
-      if(this.$store.getters.userinfo.userinfo){
-        this.axios.post('/fiction/add/bookrack',{
-          bookid:this.article.id,
-          article_title: this.article.article_title,
-          cover_image:this.article.cover_image,
-          article_intro: this.article.article_intro,
-          article_status:this.article.article_status,
-          author:this.article.author,
-          lately:""
-        })
-            .then(res=>{
-              this.article.like = true
-            })
-            .catch(err=>{
-              console.log(err);
-            })
-      }else{
-        alert('你还没有登录！~')
+    addBook() {
+      if (this.$store.getters.userinfo.userinfo) {
+        this.axios
+          .post("/fiction/add/bookrack", {
+            bookid: this.article.id,
+            article_title: this.article.article_title,
+            cover_image: this.article.cover_image,
+            article_intro: this.article.article_intro,
+            article_status: this.article.article_status,
+            author: this.article.author,
+            lately: ""
+          })
+          .then(res => {
+            this.article.like = true;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        alert("你还没有登录！~");
       }
     },
     getArticleList(url) {
-      let isLogin = this.$store.getters.userinfo.userinfo ? true :false;
-      let link = isLogin ? "/fiction/chaplist/bookrack?id=": "/fiction/chaplist?id="
-      console.log(link + url.list)
+      let isLogin = this.$store.getters.userinfo.userinfo ? true : false;
+      let link = isLogin
+        ? "/fiction/chaplist/bookrack?id="
+        : "/fiction/chaplist?id=";
+      console.log(link + url.list);
       this.axios
         .get(link + url.list)
         .then(result => {
@@ -153,7 +158,7 @@ export default {
           font-size: 12px;
           color: #eeeeee;
         }
-        .bookrack{
+        .bookrack {
           position: absolute;
           bottom: 0.25rem;
           left: 0.15rem;
@@ -162,11 +167,11 @@ export default {
           padding: 0.06rem 0.1rem;
           font-size: 0.14rem;
           color: #eee;
-          &:active{
+          &:active {
             filter: blur(2px);
           }
         }
-        .bookrack.like{
+        .bookrack.like {
           background-color: #d10b46;
         }
       }

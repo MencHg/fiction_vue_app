@@ -104,7 +104,7 @@ export default {
     }
   },
   created() {
-    this.getArticleDetail(this.$route.query.id + this.$route.query.link);
+    this.getArticleDetail(this.$route.query);
     this.initTheme();
   },
   methods: {
@@ -134,16 +134,18 @@ export default {
       this.theme = theme; //获取到用户选择的主题类型赋值到data
     },
     findMore(val) {
-      console.log(val);
+      //判断是不是最后一章
       if (val.slice(-10) !== "index.html") {
-        this.getArticleDetail(val);
+        let hash =  val.split('/')
+        this.getArticleDetail({link:`${hash[2]}`,id:`${hash[0]}/${hash[1]}/`});
       } else return;
     },
     getArticleDetail(article) {
+      let url = this.$store.getters.userinfo.userinfo ? '/fiction/detail/bookrack' : '/fiction/detail';
+      console.log(url,article)
       this.axios
-        .get("/fiction/detail?id=" + article)
+        .post(url,article)
         .then(result => {
-          console.log(result.data.result);
           this.article.push(result.data.result);
         })
         .catch(err => {
